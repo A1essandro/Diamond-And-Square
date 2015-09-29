@@ -47,6 +47,18 @@ class DiamondAndSquare
         $this->divide($this->size);
     }
 
+    public function getMap()
+    {
+        return $this->terra;
+    }
+
+    public static function generateAndGetMap($size, $maxOffset = 100)
+    {
+        $map = new self($size, $maxOffset);
+        $map->generate();
+        return $map->getMap();
+    }
+
     /**
      * Рекурсивное деление карты
      *
@@ -166,8 +178,4 @@ class DiamondAndSquare
             : rand(-$stepSize, $stepSize);
     }
 
-    public function getMap()
-    {
-        return $this->terra;
-    }
 }
