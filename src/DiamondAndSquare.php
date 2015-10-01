@@ -3,8 +3,9 @@
 namespace MapGenerator;
 
 /**
+ * Diamond & Square algorithm
  *
- * @author Alexander Yermakov
+*@author Alexander Yermakov
  */
 class DiamondAndSquare
 {
@@ -18,7 +19,6 @@ class DiamondAndSquare
     private $terra = array(array());
 
     /**
-     * разница между самой высокой и самой низкой точкой на карте
      *
      * @var float
      */
@@ -30,6 +30,11 @@ class DiamondAndSquare
         $this->maxOffset = $maxOffset;
     }
 
+    /**
+     * Heightmap generation
+     *
+     * @return $this
+     */
     public function generate()
     {
         for ($x = 0; $x < $this->size; $x++) {
@@ -43,8 +48,9 @@ class DiamondAndSquare
         $this->terra[$this->size - 1][0] = $this->getOffset($this->size);
         $this->terra[$this->size - 1][$this->size - 1] = $this->getOffset($this->size);
 
-        //основная часть алгоритма тут:
         $this->divide($this->size);
+
+        return $this;
     }
 
     public function getMap()
@@ -55,12 +61,11 @@ class DiamondAndSquare
     public static function generateAndGetMap($size, $maxOffset = 100)
     {
         $map = new self($size, $maxOffset);
-        $map->generate();
-        return $map->getMap();
+        return $map->generate()->getMap();
     }
 
     /**
-     * Рекурсивное деление карты
+     * recursive division
      *
      * @param $stepSize
      */
@@ -82,7 +87,7 @@ class DiamondAndSquare
     }
 
     /**
-     * Определение высоты клетки в центре квадрата
+     * Definition of height middle point in square
      *
      * @param $x      int
      * @param $y      int
@@ -106,7 +111,7 @@ class DiamondAndSquare
     }
 
     /**
-     * Определение высоты клетки в центре ромба
+     * Definition of height middle point in diamond
      *
      * @param $x      int
      * @param $y      int
@@ -126,7 +131,7 @@ class DiamondAndSquare
     }
 
     /**
-     * Получение случайного изменения высоты для точки
+     * Getting random displacement
      *
      * @param float $stepSize
      *
@@ -139,9 +144,6 @@ class DiamondAndSquare
     }
 
     /**
-     * Получить максимальную разницу между самой выскокой и самой низкой точкой
-     * изначально генерируемой карты высот. Полученный в итоге слой может
-     * не включать в себя эти точки
      *
      * @return float
      */
@@ -151,9 +153,6 @@ class DiamondAndSquare
     }
 
     /**
-     * Задать максимальную разницу между самой выскокой и самой низкой точкой
-     * изначально генерируемой карты высот. Полученный в итоге слой может
-     * не включать в себя эти точки
      *
      * @param float $maxOffset
      */
@@ -163,7 +162,7 @@ class DiamondAndSquare
     }
 
     /**
-     * Возвращает высоту клетки, если ее нет, случайную высоту в зависимости от размера текущего шага
+     * return point height if point exists, else random height
      *
      * @param $x
      * @param $y
