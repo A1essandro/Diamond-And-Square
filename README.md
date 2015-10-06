@@ -1,6 +1,7 @@
 # Diamond And Square (PHP)
 
 Algorithm for generating heightmaps on PHP.
+
 See more about diamond-square algorithm on [wiki](https://en.wikipedia.org/wiki/Diamond-square_algorithm)
 
 
@@ -13,14 +14,20 @@ This package is only supported on PHP 5.3 and up.
 
 ###Installing via Composer
 
-See more [getcomposer.org](http://getcomposer.org). 
-```
+See more [getcomposer.org](http://getcomposer.org).
+
+Add line to `require` block of `composer.json`
+```json
     //before
     "require": {
         //other requirements
         "a1essandro/diamond-and-square": "dev-master"
     },
     //after
+```
+or execute command 
+```
+composer require a1essandro/diamond-and-square dev-master
 ```
 
  
