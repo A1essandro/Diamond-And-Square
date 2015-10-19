@@ -43,10 +43,11 @@ class DiamondAndSquare
             }
         }
 
+        $last = $this->size - 1;
         $this->terra[0][0] = $this->getOffset($this->size);
-        $this->terra[0][$this->size - 1] = $this->getOffset($this->size);
-        $this->terra[$this->size - 1][0] = $this->getOffset($this->size);
-        $this->terra[$this->size - 1][$this->size - 1] = $this->getOffset($this->size);
+        $this->terra[0][$last] = $this->getOffset($this->size);
+        $this->terra[$last][0] = $this->getOffset($this->size);
+        $this->terra[$last][$last] = $this->getOffset($this->size);
 
         $this->divide($this->size);
 
@@ -140,7 +141,7 @@ class DiamondAndSquare
     private function getOffset($stepSize)
     {
         return $stepSize / $this->size *
-        rand(-$this->maxOffset / 2, $this->maxOffset / 2);
+            rand(-$this->maxOffset / 2, $this->maxOffset / 2);
     }
 
     /**
@@ -174,7 +175,7 @@ class DiamondAndSquare
     {
         return isset($this->terra[$x][$y]) && $this->terra[$x][$y] !== null
             ? $this->terra[$x][$y]
-            : rand(-$stepSize, $stepSize);
+            : $this->getOffset($stepSize);
     }
 
 }
