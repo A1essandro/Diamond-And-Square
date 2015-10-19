@@ -16,7 +16,6 @@ This package is only supported on PHP 5.3 and up.
 
 See more [getcomposer.org](http://getcomposer.org).
 
-```
 Execute command 
 ```
 composer require a1essandro/diamond-and-square dev-master
