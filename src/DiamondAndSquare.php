@@ -5,7 +5,7 @@ namespace MapGenerator;
 /**
  * Diamond & Square algorithm
  *
-*@author Alexander Yermakov
+ * @author Alexander Yermakov
  */
 class DiamondAndSquare
 {
@@ -24,19 +24,24 @@ class DiamondAndSquare
      */
     private $maxOffset = 100;
 
-    public function __construct($size, $maxOffset = 100)
+    public function __construct()
     {
-        $this->size = pow(2, $size) + 1;
-        $this->maxOffset = $maxOffset;
+        //empty
     }
 
     /**
      * Heightmap generation
      *
+     * @param int       $preSize
+     * @param int|float $offset
+     *
      * @return $this
      */
-    public function generate()
+    public function generate($preSize, $offset = null)
     {
+        $this->size = pow(2, $preSize) + 1;
+        $this->setMaxOffset($offset);
+
         for ($x = 0; $x < $this->size; $x++) {
             for ($y = 0; $y < $this->size; $y++) {
                 $this->terra[$x][$y] = null;
@@ -59,10 +64,10 @@ class DiamondAndSquare
         return $this->terra;
     }
 
-    public static function generateAndGetMap($size, $maxOffset = 100)
+    public static function generateAndGetMap($size, $maxOffset = null)
     {
-        $map = new self($size, $maxOffset);
-        return $map->generate()->getMap();
+        $map = new self();
+        return $map->generate($size, $maxOffset)->getMap();
     }
 
     /**
@@ -141,25 +146,33 @@ class DiamondAndSquare
     private function getOffset($stepSize)
     {
         return $stepSize / $this->size *
-            rand(-$this->maxOffset / 2, $this->maxOffset / 2);
+        rand(-$this->getMaxOffset() / 2, $this->getMaxOffset() / 2);
     }
 
     /**
      *
      * @return float
      */
-    public function getMaxOffset()
+    private function getMaxOffset()
     {
         return $this->maxOffset;
     }
 
     /**
      *
-     * @param float $maxOffset
+     * @param int|float $maxOffset
      */
-    public function setMaxOffset($maxOffset)
+    private function setMaxOffset($maxOffset)
     {
-        $this->maxOffset = $maxOffset;
+        if(!is_numeric($maxOffset))
+            throw new \InvalidArgumentException("maxOffset must be numeric");
+
+        if($maxOffset === null)
+            $maxOffset = $this->size;
+        elseif($maxOffset == 0)
+            throw new \InvalidArgumentException("maxOffset should not be equal 0");
+
+        $this->maxOffset = abs($maxOffset);
     }
 
     /**

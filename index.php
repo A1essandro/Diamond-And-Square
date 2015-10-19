@@ -2,10 +2,12 @@
 
 require 'src/DiamondAndSquare.php';
 
-$gen = new MapGenerator\DiamondAndSquare(3, 100);
-$gen->generate();
-$gen->getMap(); //return float[][]
+$preSize = 3;
+$maxOffset = 100;
+
+$gen = new MapGenerator\DiamondAndSquare();
+$gen->generate($preSize, $maxOffset)->getMap(); //return float[][]
 
 //OR
 
-MapGenerator\DiamondAndSquare::generateAndGetMap(3, 100); //return float[][]
+MapGenerator\DiamondAndSquare::generateAndGetMap($preSize, $maxOffset); //return float[][]
