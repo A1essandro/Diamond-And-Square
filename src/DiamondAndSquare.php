@@ -2,6 +2,9 @@
 
 namespace MapGenerator;
 
+use Exception;
+use SplFixedArray;
+
 /**
  * Diamond & Square algorithm
  *
@@ -42,10 +45,9 @@ class DiamondAndSquare
         $this->size = pow(2, $preSize) + 1;
         $this->setMaxOffset($offset);
 
+        $this->terra = new SplFixedArray($this->size);
         for ($x = 0; $x < $this->size; $x++) {
-            for ($y = 0; $y < $this->size; $y++) {
-                $this->terra[$x][$y] = null;
-            }
+            $this->terra[$x] = new SplFixedArray($this->size);
         }
 
         $last = $this->size - 1;
@@ -186,9 +188,11 @@ class DiamondAndSquare
      */
     private function getCellHeight($x, $y, $stepSize = 0)
     {
-        return isset($this->terra[$x][$y]) && $this->terra[$x][$y] !== null
-            ? $this->terra[$x][$y]
-            : $this->getOffset($stepSize);
+        try {
+            return $this->terra[$x][$y];
+        } catch (Exception $e) {
+            return $this->getOffset($stepSize);
+        }
     }
 
 }
