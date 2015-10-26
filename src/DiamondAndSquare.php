@@ -3,6 +3,7 @@
 namespace MapGenerator;
 
 use Exception;
+use InvalidArgumentException;
 use SplFixedArray;
 
 /**
@@ -167,12 +168,12 @@ class DiamondAndSquare
     private function setMaxOffset($maxOffset)
     {
         if(!is_numeric($maxOffset))
-            throw new \InvalidArgumentException("maxOffset must be numeric");
+            throw new InvalidArgumentException("maxOffset must be numeric");
 
         if($maxOffset === null)
             $maxOffset = $this->size;
         elseif($maxOffset == 0)
-            throw new \InvalidArgumentException("maxOffset should not be equal 0");
+            throw new InvalidArgumentException("maxOffset should not be equal 0");
 
         $this->maxOffset = abs($maxOffset);
     }
