@@ -15,12 +15,16 @@ class DiamondAndSquare
 {
 
     /**
+     * Real size (computed in the generate() method)
      *
      * @var int
      */
     private $size;
 
-    private $terra = array(array());
+    /**
+     * @var SplFixedArray
+     */
+    private $terra;
 
     /**
      *
@@ -43,6 +47,10 @@ class DiamondAndSquare
      */
     public function generate($preSize, $offset = null)
     {
+        if (!is_int($preSize)) {
+            throw new InvalidArgumentException(sprintf("preSize must be int, %s given", gettype($preSize)));
+        }
+
         $this->size = pow(2, $preSize) + 1;
         $this->setMaxOffset($offset);
 
@@ -62,11 +70,20 @@ class DiamondAndSquare
         return $this;
     }
 
+    /**
+     * @return SplFixedArray
+     */
     public function getMap()
     {
         return $this->terra;
     }
 
+    /**
+     * @param int       $size
+     * @param int|float $maxOffset
+     *
+     * @return SplFixedArray
+     */
     public static function generateAndGetMap($size, $maxOffset = null)
     {
         $map = new self();
@@ -167,13 +184,15 @@ class DiamondAndSquare
      */
     private function setMaxOffset($maxOffset)
     {
-        if(!is_numeric($maxOffset))
-            throw new InvalidArgumentException("maxOffset must be numeric");
+        if (!is_numeric($maxOffset)) {
+            throw new InvalidArgumentException(sprintf("maxOffset must be numeric, %s given", gettype($maxOffset)));
+        }
 
-        if($maxOffset === null)
+        if ($maxOffset === null) {
             $maxOffset = $this->size;
-        elseif($maxOffset == 0)
+        } elseif ($maxOffset == 0) {
             throw new InvalidArgumentException("maxOffset should not be equal 0");
+        }
 
         $this->maxOffset = abs($maxOffset);
     }
