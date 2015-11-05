@@ -18,7 +18,7 @@ See more [getcomposer.org](http://getcomposer.org).
 
 Execute command 
 ```
-composer require a1essandro/diamond-and-square dev-master
+composer require a1essandro/diamond-and-square ~1.0
 ```
 
  
