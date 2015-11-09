@@ -94,14 +94,15 @@ class DiamondAndSquare
     /**
      * @param int       $size
      * @param int|float $maxOffset
+     * @param string    $mapHash
      *
      * @return SplFixedArray
      */
-    public static function generateAndGetMap($size, $maxOffset = null)
+    public static function generateAndGetMap($size, $maxOffset = null, $mapHash = null)
     {
         $map = new self();
 
-        return $map->generate($size, $maxOffset)->getMap();
+        return $map->generate($size, $maxOffset, $mapHash)->getMap();
     }
 
     /**
