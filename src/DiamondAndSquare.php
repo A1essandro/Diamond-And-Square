@@ -205,7 +205,7 @@ class DiamondAndSquare
      */
     private function setMaxOffset($maxOffset)
     {
-        if (!is_numeric($maxOffset)) {
+        if (!is_null($maxOffset) && !is_numeric($maxOffset)) {
             throw new InvalidArgumentException(sprintf("maxOffset must be numeric, %s given", gettype($maxOffset)));
         }
 
