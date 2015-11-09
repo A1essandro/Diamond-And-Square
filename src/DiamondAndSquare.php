@@ -27,10 +27,21 @@ class DiamondAndSquare
     private $terra;
 
     /**
-     *
      * @var float
      */
     private $maxOffset = 100;
+
+    /**
+     * Map unique hash
+     *
+     * @var string
+     */
+    private $mapHash;
+
+    /**
+     * @var
+     */
+    private $stepHash;
 
     public function __construct()
     {
@@ -42,10 +53,11 @@ class DiamondAndSquare
      *
      * @param int       $preSize
      * @param int|float $offset
+     * @param string    $mapHash
      *
      * @return $this
      */
-    public function generate($preSize, $offset = null)
+    public function generate($preSize, $offset = null, $mapHash = null)
     {
         if (!is_int($preSize)) {
             throw new InvalidArgumentException(sprintf("preSize must be int, %s given", gettype($preSize)));
@@ -53,6 +65,7 @@ class DiamondAndSquare
 
         $this->size = pow(2, $preSize) + 1;
         $this->setMaxOffset($offset);
+        $this->setMapHash($mapHash ?: uniqid());
 
         $this->terra = new SplFixedArray($this->size);
         for ($x = 0; $x < $this->size; $x++) {
@@ -87,6 +100,7 @@ class DiamondAndSquare
     public static function generateAndGetMap($size, $maxOffset = null)
     {
         $map = new self();
+
         return $map->generate($size, $maxOffset)->getMap();
     }
 
@@ -165,8 +179,14 @@ class DiamondAndSquare
      */
     private function getOffset($stepSize)
     {
-        return $stepSize / $this->size *
-        rand(-$this->getMaxOffset() / 2, $this->getMaxOffset() / 2);
+        $maxOffset = $this->getMaxOffset();
+
+        //update hash for new "random" value
+        $this->stepHash = md5($this->stepHash);
+        //calculate value from hash (from -$maxOffset / 2 to $maxOffset / 2)
+        $rand = -$maxOffset / 2 + intval(substr(md5($this->stepHash), -7), 16) % $maxOffset;
+
+        return $stepSize / $this->size * $rand;
     }
 
     /**
@@ -213,6 +233,26 @@ class DiamondAndSquare
         } catch (Exception $e) {
             return $this->getOffset($stepSize);
         }
+    }
+
+    /**
+     * Get identity hash
+     *
+     * @return string
+     */
+    public function getMapHash()
+    {
+        return $this->mapHash;
+    }
+
+    /**
+     * Set unique hash (for identity)
+     *
+     * @param string $mapHash
+     */
+    public function setMapHash($mapHash)
+    {
+        $this->mapHash = $this->stepHash = $mapHash;
     }
 
 }

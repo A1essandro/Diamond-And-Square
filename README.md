@@ -30,11 +30,11 @@ composer require a1essandro/diamond-and-square ~1.0
 $preSize = 3; //generates 9x9  map (2^3 + 1), where 3 is preSize, e.g. preSize=1 generates map 3x3
 $maxOffset = 100; // -50 <= height <= 50
 $gen = new MapGenerator\DiamondAndSquare();
-$gen->generate($preSize, $maxOffset)->getMap(); //return float[][]
+$gen->generate($preSize, $maxOffset)->getMap();
 ```
 
 ###Alternative
 
 ```php
-MapGenerator\DiamondAndSquare::generateAndGetMap($preSize, $maxOffset); //return float[][]
+MapGenerator\DiamondAndSquare::generateAndGetMap($preSize, $maxOffset);
 ```
