@@ -2,6 +2,12 @@
 
 Algorithm for generating heightmaps on PHP.
 
+##Algorithm
+###Steps
+![Steps](http://www.cs.middlebury.edu/~candrews/classes/cs461/programs/images/program6_diamond_square.png)
+
+_[Image source](http://www.cs.middlebury.edu/~candrews/classes/cs461/programs/program6.html)_
+
 See more about diamond-square algorithm on [wiki](https://en.wikipedia.org/wiki/Diamond-square_algorithm)
 
 
