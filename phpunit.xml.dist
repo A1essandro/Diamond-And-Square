@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        bootstrap="test/bootstrap.php"
+        backupGlobals="true">
+    <testsuites>
+        <testsuite name="Diamond-Square Tests">
+            <directory>./test/</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory>./src</directory>
+        </whitelist>
+    </filter>
+</phpunit>

@@ -1,5 +1,7 @@
 # Diamond And Square (PHP)
 
+Build status: [![Build Status](https://travis-ci.org/A1essandro/Diamond-And-Square.svg)](https://travis-ci.org/A1essandro/Diamond-And-Square)
+
 Algorithm for generating heightmaps on PHP.
 
 ##Algorithm
@@ -33,14 +35,10 @@ composer require a1essandro/diamond-and-square ~1.0
 ###Standart
 
 ```php
-$preSize = 3; //generates 9x9  map (2^3 + 1), where 3 is preSize, e.g. preSize=1 generates map 3x3
-$maxOffset = 100; // -50 <= height <= 50
-$gen = new MapGenerator\DiamondAndSquare();
-$gen->generate($preSize, $maxOffset)->getMap();
-```
+$gen = new DiamondAndSquare();
+$gen->setSize(7); //real size equal 2 ^ 7 + 1, i.e. 129
+$gen->setPersistence(200);
+$gen->setMapHash("1hCaHs5hZ");
 
-###Alternative
-
-```php
-MapGenerator\DiamondAndSquare::generateAndGetMap($preSize, $maxOffset);
+$map = $gen->generate();
 ```

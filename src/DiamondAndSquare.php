@@ -4,6 +4,7 @@ namespace MapGenerator;
 
 use Exception;
 use InvalidArgumentException;
+use LogicException;
 use SplFixedArray;
 
 /**
@@ -29,7 +30,7 @@ class DiamondAndSquare
     /**
      * @var float
      */
-    private $maxOffset = 100;
+    private $persistence;
 
     /**
      * Map unique hash
@@ -48,24 +49,77 @@ class DiamondAndSquare
         //empty
     }
 
+    public function setSize($size)
+    {
+        if (!is_int($size)) {
+            throw new InvalidArgumentException(sprintf("preSize must be int, %s given", gettype($size)));
+        }
+
+        $this->size = pow(2, $size) + 1;
+    }
+
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+    /**
+     * Get identity hash
+     *
+     * @return string
+     */
+    public function getMapHash()
+    {
+        return $this->mapHash;
+    }
+
+    /**
+     * Set unique hash (for identity)
+     *
+     * @param string $mapHash
+     */
+    public function setMapHash($mapHash)
+    {
+        $this->mapHash = $this->stepHash = $mapHash;
+    }
+
+    /**
+     *
+     * @return int|float
+     */
+    public function getPersistence()
+    {
+        return $this->persistence;
+    }
+
+    /**
+     *
+     * @param int|float $persistence
+     */
+    public function setPersistence($persistence)
+    {
+        if (!is_numeric($persistence)) {
+            throw new InvalidArgumentException(sprintf("maxOffset must be numeric, %s given", gettype($persistence)));
+        }
+
+        $this->persistence = abs($persistence);
+    }
+
     /**
      * Heightmap generation
      *
-     * @param int       $preSize
-     * @param int|float $offset
-     * @param string    $mapHash
-     *
-     * @return $this
+     * @return SplFixedArray[]
      */
-    public function generate($preSize, $offset = null, $mapHash = null)
+    public function generate()
     {
-        if (!is_int($preSize)) {
-            throw new InvalidArgumentException(sprintf("preSize must be int, %s given", gettype($preSize)));
-        }
+        if(empty($this->mapHash))
+            $this->setMapHash(uniqid());
 
-        $this->size = pow(2, $preSize) + 1;
-        $this->setMaxOffset($offset);
-        $this->setMapHash($mapHash ?: uniqid());
+        if(!$this->getPersistence())
+            throw new LogicException('Persistence must be set');
+
+        if(!$this->getSize())
+            throw new LogicException('Size must be set');
 
         $this->terra = new SplFixedArray($this->size);
         for ($x = 0; $x < $this->size; $x++) {
@@ -80,29 +134,7 @@ class DiamondAndSquare
 
         $this->divide($this->size);
 
-        return $this;
-    }
-
-    /**
-     * @return SplFixedArray
-     */
-    public function getMap()
-    {
         return $this->terra;
-    }
-
-    /**
-     * @param int       $size
-     * @param int|float $maxOffset
-     * @param string    $mapHash
-     *
-     * @return SplFixedArray
-     */
-    public static function generateAndGetMap($size, $maxOffset = null, $mapHash = null)
-    {
-        $map = new self();
-
-        return $map->generate($size, $maxOffset, $mapHash)->getMap();
     }
 
     /**
@@ -180,42 +212,14 @@ class DiamondAndSquare
      */
     private function getOffset($stepSize)
     {
-        $maxOffset = $this->getMaxOffset();
+        $maxOffset = $this->getPersistence();
 
         //update hash for new "random" value
         $this->stepHash = md5($this->stepHash);
-        //calculate value from hash (from -$maxOffset / 2 to $maxOffset / 2)
-        $rand = -$maxOffset / 2 + intval(substr(md5($this->stepHash), -7), 16) % $maxOffset;
+        //calculate value from hash (from 0 to $maxOffset)
+        $rand = intval(substr(md5($this->stepHash), -7), 16) % $maxOffset;
 
-        return $stepSize / $this->size * $rand;
-    }
-
-    /**
-     *
-     * @return float
-     */
-    private function getMaxOffset()
-    {
-        return $this->maxOffset;
-    }
-
-    /**
-     *
-     * @param int|float $maxOffset
-     */
-    private function setMaxOffset($maxOffset)
-    {
-        if (!is_null($maxOffset) && !is_numeric($maxOffset)) {
-            throw new InvalidArgumentException(sprintf("maxOffset must be numeric, %s given", gettype($maxOffset)));
-        }
-
-        if ($maxOffset === null) {
-            $maxOffset = $this->size;
-        } elseif ($maxOffset == 0) {
-            throw new InvalidArgumentException("maxOffset should not be equal 0");
-        }
-
-        $this->maxOffset = abs($maxOffset);
+        return (float) $stepSize / $this->size * $rand;
     }
 
     /**
@@ -234,26 +238,6 @@ class DiamondAndSquare
         } catch (Exception $e) {
             return $this->getOffset($stepSize);
         }
-    }
-
-    /**
-     * Get identity hash
-     *
-     * @return string
-     */
-    public function getMapHash()
-    {
-        return $this->mapHash;
-    }
-
-    /**
-     * Set unique hash (for identity)
-     *
-     * @param string $mapHash
-     */
-    public function setMapHash($mapHash)
-    {
-        $this->mapHash = $this->stepHash = $mapHash;
     }
 
 }
