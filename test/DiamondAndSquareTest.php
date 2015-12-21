@@ -95,6 +95,24 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
         $this->diamondSquare->setMapHash($mapHash);
     }
 
+    /**
+     * @expectedException LogicException
+     */
+    public function testGenerationWithoutPersistence()
+    {
+        $this->diamondSquare->setSize(3);
+        $this->diamondSquare->generate();
+    }
+
+    /**
+     * @expectedException LogicException
+     */
+    public function testGenerationWithoutSize()
+    {
+        $this->diamondSquare->setPersistence(300);
+        $this->diamondSquare->generate();
+    }
+
     public function testHashEquals()
     {
         $this->diamondSquare->setSize(1);
@@ -107,6 +125,7 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
         $map2 = $this->diamondSquare->generate();
 
         $this->assertEquals(self::expandMap($map1), self::expandMap($map2));
+        $this->assertEquals($mapHash, $this->diamondSquare->getMapHash());
     }
 
     public function testDifferentHashes()
