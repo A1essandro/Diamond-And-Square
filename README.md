@@ -1,6 +1,6 @@
 # Diamond And Square (PHP)
 
-Build status: [![Build Status](https://travis-ci.org/A1essandro/Diamond-And-Square.svg)](https://travis-ci.org/A1essandro/Diamond-And-Square)
+[![Build Status](https://travis-ci.org/A1essandro/Diamond-And-Square.svg)](https://travis-ci.org/A1essandro/Diamond-And-Square) [![Coverage Status](https://coveralls.io/repos/A1essandro/Diamond-And-Square/badge.svg?branch=master&service=github)](https://coveralls.io/github/A1essandro/Diamond-And-Square?branch=master)
 
 Algorithm for generating heightmaps on PHP.
 
