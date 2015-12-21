@@ -80,6 +80,10 @@ class DiamondAndSquare
      */
     public function setMapHash($mapHash)
     {
+        if (!is_string($mapHash)) {
+            throw new InvalidArgumentException(sprintf("mapHash must be string, %s given", gettype($mapHash)));
+        }
+
         $this->mapHash = $this->stepHash = $mapHash;
     }
 
@@ -112,14 +116,17 @@ class DiamondAndSquare
      */
     public function generate()
     {
-        if(empty($this->mapHash))
+        if (empty($this->mapHash)) {
             $this->setMapHash(uniqid());
+        }
 
-        if(!$this->getPersistence())
+        if (!$this->getPersistence()) {
             throw new LogicException('Persistence must be set');
+        }
 
-        if(!$this->getSize())
+        if (!$this->getSize()) {
             throw new LogicException('Size must be set');
+        }
 
         $this->terra = new SplFixedArray($this->size);
         for ($x = 0; $x < $this->size; $x++) {
@@ -219,7 +226,7 @@ class DiamondAndSquare
         //calculate value from hash (from 0 to $maxOffset)
         $rand = intval(substr(md5($this->stepHash), -7), 16) % $maxOffset;
 
-        return (float) $stepSize / $this->size * $rand;
+        return (float)$stepSize / $this->size * $rand;
     }
 
     /**

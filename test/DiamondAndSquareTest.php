@@ -29,7 +29,7 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
         return array(
             array(2),
             array(4),
-            array(7)
+            array(7),
         );
     }
 
@@ -38,7 +38,7 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
         return array(
             array('a'),
             array(2.1),
-            array(10.)
+            array(10.),
         );
     }
 
@@ -47,7 +47,16 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
         return array(
             array('a'),
             array(null),
-            array(array())
+            array(array()),
+        );
+    }
+
+    public function providerSetInvalidMapHash()
+    {
+        return array(
+            array(123),
+            array(null),
+            array(new StdClass()),
         );
     }
 
@@ -75,6 +84,40 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
     public function testSetSizeNotInt($sizeToSet)
     {
         $this->diamondSquare->setSize($sizeToSet);
+    }
+
+    /**
+     * @dataProvider providerSetInvalidMapHash
+     * @expectedException InvalidArgumentException
+     */
+    public function testSetInvalidMapHash($mapHash)
+    {
+        $this->diamondSquare->setMapHash($mapHash);
+    }
+
+    public function testHashEquals()
+    {
+        $this->diamondSquare->setSize(4);
+        $this->diamondSquare->setPersistence(100);
+
+        //same hashes
+        $mapHash = uniqid();
+        $this->diamondSquare->setMapHash($mapHash);
+        $map1 = $this->diamondSquare->generate();
+        $map2 = $this->diamondSquare->generate();
+
+        $this->assertEquals($map1, $map2);
+
+        //different hashes
+        $mapHash1 = uniqid() . '1';
+        $mapHash2 = uniqid() . '2';
+
+        $this->diamondSquare->setMapHash($mapHash1);
+        $map1 = $this->diamondSquare->generate();
+        $this->diamondSquare->setMapHash($mapHash2);
+        $map2 = $this->diamondSquare->generate();
+
+        $this->assertNotEquals($map1, $map2);
     }
 
     /**

@@ -4,7 +4,7 @@ $start = microtime(true);
 
 ini_set('display_errors', 'On');
 
-require __DIR__ . '/src/DiamondAndSquare.php';
+require __DIR__ . '/../src/DiamondAndSquare.php';
 
 $size = 2;
 
