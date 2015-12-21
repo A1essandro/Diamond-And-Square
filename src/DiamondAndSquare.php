@@ -141,6 +141,8 @@ class DiamondAndSquare
 
         $this->divide($this->size);
 
+        $this->setMapHash($this->mapHash);
+
         return $this->terra;
     }
 
@@ -224,7 +226,7 @@ class DiamondAndSquare
         //update hash for new "random" value
         $this->stepHash = md5($this->stepHash);
         //calculate value from hash (from 0 to $maxOffset)
-        $rand = intval(substr(md5($this->stepHash), -7), 16) % $maxOffset;
+        $rand = intval(substr($this->stepHash, -8), 16) % $maxOffset;
 
         return (float)$stepSize / $this->size * $rand;
     }

@@ -97,7 +97,7 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
 
     public function testHashEquals()
     {
-        $this->diamondSquare->setSize(4);
+        $this->diamondSquare->setSize(1);
         $this->diamondSquare->setPersistence(100);
 
         //same hashes
@@ -106,18 +106,23 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
         $map1 = $this->diamondSquare->generate();
         $map2 = $this->diamondSquare->generate();
 
-        $this->assertEquals($map1, $map2);
+        $this->assertEquals(self::expandMap($map1), self::expandMap($map2));
+    }
 
-        //different hashes
+    public function testDifferentHashes()
+    {
         $mapHash1 = uniqid() . '1';
         $mapHash2 = uniqid() . '2';
+
+        $this->diamondSquare->setSize(3);
+        $this->diamondSquare->setPersistence(100);
 
         $this->diamondSquare->setMapHash($mapHash1);
         $map1 = $this->diamondSquare->generate();
         $this->diamondSquare->setMapHash($mapHash2);
         $map2 = $this->diamondSquare->generate();
 
-        $this->assertNotEquals($map1, $map2);
+        $this->assertNotEquals(self::expandMap($map1), self::expandMap($map2));
     }
 
     /**
@@ -146,5 +151,17 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
     }
 
     #endregion
+
+    private static function expandMap($map)
+    {
+        $expandPoints = array();
+        foreach ($map as $line) {
+            foreach ($line as $point) {
+                $expandPoints[] = $point;
+            }
+        }
+
+        return $expandPoints;
+    }
 
 }
