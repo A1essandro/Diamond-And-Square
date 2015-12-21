@@ -4,6 +4,8 @@
 
 Algorithm for generating heightmaps on PHP.
 
+See also [Perlin-Noise algorithm](https://github.com/A1essandro/perlin-noise-generator) with the similar API.
+
 ##Algorithm
 ###Steps
 ![Steps](http://www.cs.middlebury.edu/~candrews/classes/cs461/programs/images/program6_diamond_square.png)
