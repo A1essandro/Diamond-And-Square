@@ -37,12 +37,12 @@ class DiamondAndSquare
      *
      * @var string
      */
-    private $mapHash;
+    private $mapSeed;
 
     /**
-     * @var
+     * @var number
      */
-    private $stepHash;
+    private $floatSeed = 0;
 
     public function __construct()
     {
@@ -66,25 +66,46 @@ class DiamondAndSquare
     /**
      * Get identity hash
      *
-     * @return string
+     * @deprecated
+     * @return string|number
      */
     public function getMapHash()
     {
-        return $this->mapHash;
+        return $this->getMapSeed();
     }
 
     /**
      * Set unique hash (for identity)
      *
-     * @param string $mapHash
+     * @deprecated
+     *
+     * @param string|number $mapHash
      */
     public function setMapHash($mapHash)
     {
-        if (!is_string($mapHash)) {
-            throw new InvalidArgumentException(sprintf("mapHash must be string, %s given", gettype($mapHash)));
+        $this->setMapSeed($mapHash);
+    }
+
+    /**
+     *
+     * @param string|number $seed
+     */
+    public function setMapSeed($seed)
+    {
+        if (!is_string($seed) && !is_numeric($seed)) {
+            throw new InvalidArgumentException(sprintf("Seed must be string or number, %s given", gettype($seed)));
         }
 
-        $this->mapHash = $this->stepHash = $mapHash;
+        $this->mapSeed = $seed;
+        $this->floatSeed = is_numeric($seed) ? $seed : intval(substr(md5($seed), -8), 16);
+    }
+
+    /**
+     * @return string
+     */
+    public function getMapSeed()
+    {
+        return $this->mapSeed;
     }
 
     /**
@@ -116,8 +137,8 @@ class DiamondAndSquare
      */
     public function generate()
     {
-        if (empty($this->mapHash)) {
-            $this->setMapHash(uniqid());
+        if (empty($this->mapSeed)) {
+            $this->setMapSeed(microtime(true));
         }
 
         if (!$this->getPersistence()) {
@@ -133,6 +154,8 @@ class DiamondAndSquare
             $this->terra[$x] = new SplFixedArray($this->size);
         }
 
+        mt_srand($this->floatSeed * $this->size);
+
         $last = $this->size - 1;
         $this->terra[0][0] = $this->getOffset($this->size);
         $this->terra[0][$last] = $this->getOffset($this->size);
@@ -140,8 +163,6 @@ class DiamondAndSquare
         $this->terra[$last][$last] = $this->getOffset($this->size);
 
         $this->divide($this->size);
-
-        $this->setMapHash($this->mapHash);
 
         return $this->terra;
     }
@@ -221,14 +242,7 @@ class DiamondAndSquare
      */
     private function getOffset($stepSize)
     {
-        $maxOffset = $this->getPersistence();
-
-        //update hash for new "random" value
-        $this->stepHash = md5($this->stepHash);
-        //calculate value from hash (from 0 to $maxOffset)
-        $rand = intval(substr($this->stepHash, -8), 16) % $maxOffset;
-
-        return (float)$stepSize / $this->size * $rand;
+        return (float)$stepSize / $this->size * mt_rand(0, $this->getPersistence());
     }
 
     /**
