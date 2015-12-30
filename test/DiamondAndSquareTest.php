@@ -54,7 +54,7 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
     public function providerSetInvalidMapHash()
     {
         return array(
-            array(123),
+            array(array(1, 2, 3)),
             array(null),
             array(new StdClass()),
         );
