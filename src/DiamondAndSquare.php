@@ -242,7 +242,7 @@ class DiamondAndSquare
      */
     private function getOffset($stepSize)
     {
-        return (float)$stepSize / $this->size * mt_rand(0, $this->getPersistence());
+        return (float)$stepSize / $this->size * mt_rand(-$this->getPersistence() / 2, $this->getPersistence() / 2);
     }
 
     /**
