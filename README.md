@@ -39,7 +39,7 @@ composer require a1essandro/diamond-and-square ~2.0
 ```php
 $gen = new DiamondAndSquare();
 $gen->setSize(7); //real size equal 2 ^ 7 + 1, i.e. 129
-$gen->setPersistence(200);
+$gen->setPersistence(1.7);
 $gen->setMapSeed("1hCaHs5hZ"); //optional
 
 $map = $gen->generate();

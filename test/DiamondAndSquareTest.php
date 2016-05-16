@@ -156,7 +156,7 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
     public function testContains()
     {
         $this->diamondSquare->setSize(5);
-        $this->diamondSquare->setPersistence(100);
+        $this->diamondSquare->setPersistence(10);
         $map = $this->diamondSquare->generate();
 
         $points = array();
@@ -167,6 +167,41 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
         }
 
         $this->assertContainsOnly('float', $points);
+    }
+
+    public function testGenerationWithOptions()
+    {
+        $this->diamondSquare->generate(
+            array(
+                DiamondAndSquare::SIZE        => 7,
+                DiamondAndSquare::PERSISTENCE => 0.756,
+                DiamondAndSquare::MAP_SEED    => microtime()
+            )
+        );
+    }
+
+    public function testMixedOptionsGeneration()
+    {
+        $this->diamondSquare->setSize(7);
+        $this->diamondSquare->generate(
+            array(
+                DiamondAndSquare::PERSISTENCE => 0.756,
+                DiamondAndSquare::MAP_SEED    => microtime()
+            )
+        );
+    }
+
+    /**
+     * @expectedException LogicException
+     */
+    public function testGenerationViaOptionsWithoutSize()
+    {
+        $this->diamondSquare->generate(
+            array(
+                DiamondAndSquare::PERSISTENCE => 0.756,
+                DiamondAndSquare::MAP_SEED    => microtime()
+            )
+        );
     }
 
     #endregion

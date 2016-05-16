@@ -39,6 +39,10 @@ class DiamondAndSquare
      */
     private $mapSeed;
 
+    const SIZE = 'size';
+    const PERSISTENCE = 'persistence';
+    const MAP_SEED = 'map_seed';
+
     /**
      * @var number
      */
@@ -47,6 +51,22 @@ class DiamondAndSquare
     public function __construct()
     {
         //empty
+    }
+
+    /**
+     * @param array $options
+     */
+    public function setOptions(array $options)
+    {
+        if (array_key_exists(static::MAP_SEED, $options)) {
+            $this->setMapSeed($options[static::MAP_SEED]);
+        }
+        if (array_key_exists(static::SIZE, $options)) {
+            $this->setSize($options[static::SIZE]);
+        }
+        if (array_key_exists(static::PERSISTENCE, $options)) {
+            $this->setPersistence($options[static::PERSISTENCE]);
+        }
     }
 
     public function setSize($size)
@@ -133,10 +153,14 @@ class DiamondAndSquare
     /**
      * Heightmap generation
      *
-     * @return SplFixedArray[]
+     * @param array $options
+     *
+     * @return \SplFixedArray[]
      */
-    public function generate()
+    public function generate(array $options = array())
     {
+        $this->setOptions($options);
+
         if (empty($this->mapSeed)) {
             $this->setMapSeed(microtime(true));
         }
