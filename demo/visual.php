@@ -6,7 +6,7 @@ $gen = new MapGenerator\DiamondAndSquare();
 
 $size = 8;
 
-$gen->setPersistence(200);
+$gen->setPersistence(1.8);
 $gen->setSize($size);
 $gen->setMapSeed(uniqid());
 $map = $gen->generate();
