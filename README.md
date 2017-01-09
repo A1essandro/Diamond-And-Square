@@ -8,9 +8,9 @@ See also [Perlin-Noise algorithm](https://github.com/A1essandro/perlin-noise-gen
 
 ##Algorithm
 ###Steps
-![Steps](http://www.cs.middlebury.edu/~candrews/classes/cs461/programs/images/program6_diamond_square.png)
+![Steps](https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Diamond_Square.svg/1499px-Diamond_Square.svg.png)
 
-_[Image source](http://www.cs.middlebury.edu/~candrews/classes/cs461/programs/program6.html)_
+_[Image source](https://en.wikipedia.org/wiki/Diamond-square_algorithm)_
 
 See more about diamond-square algorithm on [wiki](https://en.wikipedia.org/wiki/Diamond-square_algorithm)
 
