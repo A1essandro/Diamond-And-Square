@@ -56,7 +56,7 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
         return array(
             array(array(1, 2, 3)),
             array(null),
-            array(new StdClass()),
+            array(new stdClass()),
         );
     }
 
@@ -93,24 +93,6 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
     public function testSetInvalidMapHash($mapHash)
     {
         $this->diamondSquare->setMapHash($mapHash);
-    }
-
-    /**
-     * @expectedException LogicException
-     */
-    public function testGenerationWithoutPersistence()
-    {
-        $this->diamondSquare->setSize(3);
-        $this->diamondSquare->generate();
-    }
-
-    /**
-     * @expectedException LogicException
-     */
-    public function testGenerationWithoutSize()
-    {
-        $this->diamondSquare->setPersistence(300);
-        $this->diamondSquare->generate();
     }
 
     public function testHashEquals()
@@ -191,17 +173,10 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException LogicException
-     */
-    public function testGenerationViaOptionsWithoutSize()
+    public function testDefaultValues()
     {
-        $this->diamondSquare->generate(
-            array(
-                DiamondAndSquare::PERSISTENCE => 0.756,
-                DiamondAndSquare::MAP_SEED    => microtime()
-            )
-        );
+        $result = $this->diamondSquare->generate();
+        $this->assertNotEmpty($result);
     }
 
     #endregion
