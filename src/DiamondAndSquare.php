@@ -42,14 +42,9 @@ class DiamondAndSquare
     const PERSISTENCE = 'persistence';
     const MAP_SEED = 'map_seed';
 
-    /**
-     * @var number
-     */
-    private $floatSeed = 0;
-
     public function __construct()
     {
-        $this->mapSeed = microtime(true);
+        $this->setMapSeed(microtime(true));
     }
 
     /**
@@ -116,7 +111,6 @@ class DiamondAndSquare
         }
 
         $this->mapSeed = $seed;
-        $this->floatSeed = is_numeric($seed) ? $seed : intval(substr(md5($seed), -8), 16);
     }
 
     /**
@@ -165,7 +159,7 @@ class DiamondAndSquare
             $this->terra[$x] = new SplFixedArray($this->size);
         }
 
-        mt_srand($this->floatSeed * $this->size);
+        mt_srand($this->getInternalMapSeed());
 
         $last = $this->size - 1;
         $this->terra[0][0] = $this->getOffset($this->size);
@@ -274,6 +268,15 @@ class DiamondAndSquare
         } catch (Exception $e) {
             return $this->getOffset($stepSize);
         }
+    }
+
+    /**
+     * Return internal seed, depend on the size
+     * @return int
+     */
+    private function getInternalMapSeed()
+    {
+        return intval(substr(md5($this->mapSeed . $this->size), -7), 16);
     }
 
 }

@@ -92,7 +92,7 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
      */
     public function testSetInvalidMapHash($mapHash)
     {
-        $this->diamondSquare->setMapHash($mapHash);
+        $this->diamondSquare->setMapSeed($mapHash);
     }
 
     public function testHashEquals()
@@ -102,12 +102,12 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
 
         //same hashes
         $mapHash = uniqid();
-        $this->diamondSquare->setMapHash($mapHash);
+        $this->diamondSquare->setMapSeed($mapHash);
         $map1 = $this->diamondSquare->generate();
         $map2 = $this->diamondSquare->generate();
 
         $this->assertEquals(self::expandMap($map1), self::expandMap($map2));
-        $this->assertEquals($mapHash, $this->diamondSquare->getMapHash());
+        $this->assertEquals($mapHash, $this->diamondSquare->getMapSeed());
     }
 
     public function testDifferentHashes()
@@ -118,9 +118,9 @@ class DiamondAndSquareTest extends PHPUnit_Framework_TestCase
         $this->diamondSquare->setSize(3);
         $this->diamondSquare->setPersistence(100);
 
-        $this->diamondSquare->setMapHash($mapHash1);
+        $this->diamondSquare->setMapSeed($mapHash1);
         $map1 = $this->diamondSquare->generate();
-        $this->diamondSquare->setMapHash($mapHash2);
+        $this->diamondSquare->setMapSeed($mapHash2);
         $map2 = $this->diamondSquare->generate();
 
         $this->assertNotEquals(self::expandMap($map1), self::expandMap($map2));
