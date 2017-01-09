@@ -4,7 +4,6 @@ namespace MapGenerator;
 
 use Exception;
 use InvalidArgumentException;
-use LogicException;
 use SplFixedArray;
 
 /**
@@ -20,7 +19,7 @@ class DiamondAndSquare
      *
      * @var int
      */
-    private $size;
+    private $size = 3;
 
     /**
      * @var SplFixedArray
@@ -30,7 +29,7 @@ class DiamondAndSquare
     /**
      * @var float
      */
-    private $persistence;
+    private $persistence = 1.5;
 
     /**
      * Map unique hash
@@ -50,7 +49,7 @@ class DiamondAndSquare
 
     public function __construct()
     {
-        //empty
+        $this->mapSeed = microtime(true);
     }
 
     /**
@@ -160,18 +159,6 @@ class DiamondAndSquare
     public function generate(array $options = array())
     {
         $this->setOptions($options);
-
-        if (empty($this->mapSeed)) {
-            $this->setMapSeed(microtime(true));
-        }
-
-        if (!$this->getPersistence()) {
-            throw new LogicException('Persistence must be set');
-        }
-
-        if (!$this->getSize()) {
-            throw new LogicException('Size must be set');
-        }
 
         $this->terra = new SplFixedArray($this->size);
         for ($x = 0; $x < $this->size; $x++) {

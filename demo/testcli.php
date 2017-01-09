@@ -10,7 +10,7 @@ $size = 3;
 
 $gen = new MapGenerator\DiamondAndSquare();
 $gen->setSize($size);
-$gen->setPersistence(50);
+$gen->setPersistence(1.5);
 $gen->setMapSeed('uniqueSeed');
 
 $memStart = memory_get_usage();
