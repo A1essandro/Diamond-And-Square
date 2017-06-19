@@ -6,8 +6,8 @@ Algorithm for generating heightmaps on PHP.
 
 See also [Perlin-Noise algorithm](https://github.com/A1essandro/perlin-noise-generator) with the similar API.
 
-##Algorithm
-###Steps
+## Algorithm
+### Steps
 ![Steps](https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Diamond_Square.svg/1499px-Diamond_Square.svg.png)
 
 _[Image source](https://en.wikipedia.org/wiki/Diamond-square_algorithm)_
@@ -15,14 +15,14 @@ _[Image source](https://en.wikipedia.org/wiki/Diamond-square_algorithm)_
 See more about diamond-square algorithm on [wiki](https://en.wikipedia.org/wiki/Diamond-square_algorithm)
 
 
-##Requirements
+## Requirements
 
 This package is only supported on PHP 5.3 and up.
 
 
-##Installing
+## Installing
 
-###Installing via Composer
+### Installing via Composer
 
 See more [getcomposer.org](http://getcomposer.org).
 
@@ -32,9 +32,9 @@ composer require a1essandro/diamond-and-square ~2.0
 ```
 
  
-##Usage example
+## Usage example
 
-###Standart
+### Standart
 
 ```php
 $gen = new DiamondAndSquare();
